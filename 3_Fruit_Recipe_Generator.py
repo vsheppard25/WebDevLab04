@@ -113,7 +113,7 @@ Keep the tone friendly and encouraging. Format your response clearly with header
 for each section.
 """
 
-        api_key = "AIzaSyAQLqj8yhXyvcVXFDdtWdz9BT3u_z2RYEo"
+        api_key = st.secrets.get("GEMINI_API_KEY", "")
 
         if not api_key:
             st.error("No Gemini API key found. Add GEMINI_API_KEY to your Streamlit secrets.")
