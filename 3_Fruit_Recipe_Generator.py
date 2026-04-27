@@ -113,14 +113,17 @@ Keep the tone friendly and encouraging. Format your response clearly with header
 for each section.
 """
 
-        api_key = st.secrets.get("GEMINI_API_KEY", "")
+        api_key = "AIzaSyAQLqj8yhXyvcVXFDdtWdz9BT3u_z2RYEo"
 
         if not api_key:
             st.error("No Gemini API key found. Add GEMINI_API_KEY to your Streamlit secrets.")
         else:
             try:
                 with st.spinner("Generating your personalized recipe..."):
-                    client = genai.Client(api_key=api_key)
+                    @st.cache_resource
+                    def get_gemini_client():
+                        return genai.Client(api_key=api_key)
+                    client = get_gemini_client()
                     response = client.models.generate_content(
                         model="gemini-2.0-flash",
                         contents=prompt

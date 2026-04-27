@@ -9,7 +9,7 @@ st.title("🥝 Fruit Bot")
 def build_chat(client):
     history = []
 
-    for msg in st.session_state.messages:
+    for msg in st.session_state.messages[-10:]:
         if msg["role"] == "system":
             continue
 
@@ -77,7 +77,10 @@ if prompt:
             st.error(error_message)
     else:
         try:
-            client = genai.Client(api_key=api_key)
+            @st.cache_resource
+            def get_gemini_client():
+                return genai.Client(api_key=api_key)
+            client = get_gemini_client()
             chat = build_chat(client)
 
             # add context to the prompt to make sure gemini stays friendly

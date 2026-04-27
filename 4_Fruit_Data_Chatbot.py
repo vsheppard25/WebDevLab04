@@ -100,7 +100,10 @@ if user_prompt:
         st.markdown(user_prompt)
 
     try:
-        client = genai.Client(api_key=api_key)
+        @st.cache_resource
+        def get_gemini_client():
+            return genai.Client(api_key=api_key)
+        client = get_gemini_client()
 
         fruit_context = context_df.to_string(index=False)
 
